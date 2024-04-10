@@ -1,0 +1,9 @@
+/vendor
+/node_modules
+
+config/*
+cache/*
+logs/*
+dist/*
+!dist/.htaccess
+!dist/index.php
