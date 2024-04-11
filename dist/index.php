@@ -10,6 +10,8 @@
 use Diana\IO\Request;
 use Diana\Runtime\Application;
 
+define('DIANA_START', hrtime(true));
+
 /**
  * Class loader
  * -----------------------------------------------
