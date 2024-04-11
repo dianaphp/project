@@ -11,7 +11,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "": "src/",
+            "Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -26,22 +27,6 @@
         {
             "name": "Antonio Ianzano",
             "email": "ianzanoan@gmail.com"
-        }
-    ],
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../framework",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "../rendering",
-            "options": {
-                "symlink": true
-            }
         }
     ],
     "require": {
