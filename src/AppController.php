@@ -3,6 +3,7 @@
 use Composer\Autoload\ClassLoader;
 use Composer\InstalledVersions;
 use Diana\Rendering\Contracts\Renderer;
+use Diana\Routing\Attributes\Command;
 use Diana\Routing\Attributes\Get;
 use Diana\Runtime\Application;
 use Diana\Support\Debug;
@@ -23,5 +24,11 @@ class AppController
             'dianaVersion' => InstalledVersions::getVersion('dianaphp/framework'),
             'phpVersion' => phpversion()
         ];
+    }
+
+    #[Command('version', 'package')]
+    public function version($package = 'dianaphp/framework')
+    {
+        return InstalledVersions::getVersion($package);
     }
 }
