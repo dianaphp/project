@@ -24,10 +24,10 @@ function App() {
         <>
             <div>
                 <a href="https://github.com/dianaphp" target="_blank">
-                    <img src={dianaLogo} className="logo" alt="Diana logo" />
+                    <img src={dianaLogo} className="logo diana" alt="Diana logo" />
                 </a>
                 <a href="https://vitejs.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
+                    <img src={viteLogo} className="logo vite" alt="Vite logo" />
                 </a>
                 <a href="https://react.dev" target="_blank">
                     <img src={reactLogo} className="logo react" alt="React logo" />

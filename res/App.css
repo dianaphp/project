@@ -12,8 +12,12 @@
   transition: filter 300ms;
 }
 
-.logo:hover {
+.logo.vite:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.diana:hover {
+  filter: drop-shadow(0 0 2em #fdce68aa);
 }
 
 .logo.react:hover {

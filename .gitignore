@@ -15,3 +15,5 @@ logs/*
 dist/*
 !dist/.htaccess
 !dist/index.php
+
+!**/*/.gitkeep
