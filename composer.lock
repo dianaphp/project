@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "53a76ca1ec2acd8d221da69e76630962",
+    "content-hash": "c3f961f71448fd21436bd05152a23ceb",
     "packages": [
         {
             "name": "brick/math",
@@ -66,13 +66,13 @@
             "version": "dev-main",
             "dist": {
                 "type": "path",
-                "url": "../framework",
-                "reference": "3dccd13c38b9abfb1b988762b86c8d98e35e5642"
+                "url": "/repo/dianaphp/framework",
+                "reference": "84ab6187c9b24cc67470c3c1042f90e458a6129f"
             },
             "require": {
                 "dianaphp/lib": "dev-main",
                 "filp/whoops": "^2.15",
-                "php": ">=8.3"
+                "php": ">=8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^11.2@dev"
@@ -80,7 +80,8 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Diana\\": "src/Diana/"
+                    "Diana\\": "src/Diana/",
+                    "Diana\\Tests\\": "tests/"
                 }
             },
             "scripts": {
@@ -108,7 +109,7 @@
             ],
             "transport-options": {
                 "symlink": true,
-                "relative": true
+                "relative": false
             }
         },
         {
@@ -117,10 +118,10 @@
             "dist": {
                 "type": "path",
                 "url": "/repo/dianaphp/lib",
-                "reference": "6ebc29d5e3c070fe1dc360be13678f78bab7b4c0"
+                "reference": "4f279287dcca743f2031255b0ece740e694db126"
             },
             "require": {
-                "php": ">=8.3"
+                "php": ">=8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "*"
@@ -165,12 +166,12 @@
             "version": "dev-main",
             "dist": {
                 "type": "path",
-                "url": "../rendering",
-                "reference": "6387d581027312c0c134964cfce4a419bdf3f79b"
+                "url": "/repo/dianaphp/rendering",
+                "reference": "5f8fb1e9bfc052b3625c63db45d0d02c4b0dc149"
             },
             "require": {
                 "dianaphp/lib": "*",
-                "php": ">=8.3",
+                "php": ">=8.0",
                 "ramsey/uuid": "*"
             },
             "require-dev": {
@@ -208,7 +209,7 @@
             ],
             "transport-options": {
                 "symlink": true,
-                "relative": true
+                "relative": false
             }
         },
         {
@@ -217,11 +218,11 @@
             "dist": {
                 "type": "path",
                 "url": "/repo/dianaphp/routing",
-                "reference": "cd43acfa82013ea972ebee7ae6f1dbfdad1d9584"
+                "reference": "c519c583fe6b3a2c8ea8dfc2386541e8f35cd68e"
             },
             "require": {
                 "dianaphp/lib": "dev-main",
-                "php": ">=8.3"
+                "php": ">=8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^11.2@dev"
@@ -229,7 +230,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Diana\\Routing\\": "src/Diana/Routing/",
+                    "Diana\\": "src/Diana/",
                     "Diana\\Tests\\": "tests/"
                 }
             },
@@ -1048,12 +1049,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "e91fafbc05ca189c67f8a4936ff825a9f719dcab"
+                "reference": "bc650b2c0cd65b1ebc539516ab56dbf80cae175f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e91fafbc05ca189c67f8a4936ff825a9f719dcab",
-                "reference": "e91fafbc05ca189c67f8a4936ff825a9f719dcab",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bc650b2c0cd65b1ebc539516ab56dbf80cae175f",
+                "reference": "bc650b2c0cd65b1ebc539516ab56dbf80cae175f",
                 "shasum": ""
             },
             "require": {
@@ -1141,7 +1142,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-10T14:01:15+00:00"
+            "time": "2024-04-13T06:38:43+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -2143,7 +2144,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.3"
+        "php": ">=8.0"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"
