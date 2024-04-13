@@ -67,7 +67,7 @@
             "dist": {
                 "type": "path",
                 "url": "/repo/dianaphp/framework",
-                "reference": "84ab6187c9b24cc67470c3c1042f90e458a6129f"
+                "reference": "a509761aad6d07b1d05c41796a269f7e1f30a9a3"
             },
             "require": {
                 "dianaphp/lib": "dev-main",
@@ -118,7 +118,7 @@
             "dist": {
                 "type": "path",
                 "url": "/repo/dianaphp/lib",
-                "reference": "4f279287dcca743f2031255b0ece740e694db126"
+                "reference": "714940ffd3fc6a36267b6ad748423cb17a1f1622"
             },
             "require": {
                 "php": ">=8.0"
@@ -167,7 +167,7 @@
             "dist": {
                 "type": "path",
                 "url": "/repo/dianaphp/rendering",
-                "reference": "5f8fb1e9bfc052b3625c63db45d0d02c4b0dc149"
+                "reference": "0fed729745d5fa9f7717a55b3aad928ceeaf1385"
             },
             "require": {
                 "dianaphp/lib": "*",
@@ -218,7 +218,7 @@
             "dist": {
                 "type": "path",
                 "url": "/repo/dianaphp/routing",
-                "reference": "c519c583fe6b3a2c8ea8dfc2386541e8f35cd68e"
+                "reference": "1810b9d8fdc8d94a20ecdad4843c7431b73efe22"
             },
             "require": {
                 "dianaphp/lib": "dev-main",

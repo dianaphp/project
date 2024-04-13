@@ -1,12 +1,12 @@
 <?php
 
-use Composer\Autoload\ClassLoader;
+namespace App;
+
 use Composer\InstalledVersions;
 use Diana\Rendering\Contracts\Renderer;
 use Diana\Routing\Attributes\Command;
 use Diana\Routing\Attributes\Get;
 use Diana\Runtime\Application;
-use Diana\Support\Debug;
 
 class AppController
 {

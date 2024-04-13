@@ -1,13 +1,13 @@
 <?php
 
-use Diana\Config\Config;
+namespace App;
+
 use Diana\Rendering\RenderingPackage;
 use Diana\IO\Contracts\Kernel as KernelContract;
 use Diana\IO\Kernel;
 use Diana\Routing\RoutingPackage;
 use Diana\Runtime\Application;
 use Diana\Runtime\Package;
-use Diana\Support\Debug;
 
 class AppPackage extends Package
 {
