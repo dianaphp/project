@@ -30,5 +30,5 @@ $autoLoader = require_once __DIR__ . '/vendor/autoload.php';
  * all by itself so we can start developing straight away.
  */
 
-Application::make(__DIR__, $autoLoader)
+(new Application(__DIR__, $autoLoader))
     ->handleRequest(Request::capture());

@@ -5,7 +5,9 @@ namespace App;
 use Composer\InstalledVersions;
 use Diana\Rendering\Contracts\Renderer;
 use Diana\Routing\Attributes\Command;
+use Diana\Routing\Attributes\CommandErrorHandler;
 use Diana\Routing\Attributes\Get;
+use Diana\Routing\Attributes\HttpErrorHandler;
 
 class AppController
 {
@@ -13,6 +15,18 @@ class AppController
     public function index(Renderer $renderer, AppPackage $appPackage)
     {
         return $renderer->make("./res/app.blade.php", $appPackage->config->get());
+    }
+
+    #[CommandErrorHandler()]
+    public function commandError(int $errorCode)
+    {
+        return $errorCode;
+    }
+
+    #[HttpErrorHandler()]
+    public function httpError(int $errorCode)
+    {
+        return $errorCode;
     }
 
     #[Get("/data")]

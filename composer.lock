@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c3f961f71448fd21436bd05152a23ceb",
+    "content-hash": "c585b199dbfa396bdc32053e724c0b13",
     "packages": [
         {
             "name": "brick/math",
@@ -67,7 +67,7 @@
             "dist": {
                 "type": "path",
                 "url": "/repo/dianaphp/framework",
-                "reference": "a509761aad6d07b1d05c41796a269f7e1f30a9a3"
+                "reference": "94456b3bfd2d6c77c0010e72e92e2a75fbb7504d"
             },
             "require": {
                 "dianaphp/lib": "dev-main",
@@ -118,7 +118,7 @@
             "dist": {
                 "type": "path",
                 "url": "/repo/dianaphp/lib",
-                "reference": "714940ffd3fc6a36267b6ad748423cb17a1f1622"
+                "reference": "734273eae6744d4a623a571012b5e88deab9fc7c"
             },
             "require": {
                 "php": ">=8.0"
@@ -167,12 +167,12 @@
             "dist": {
                 "type": "path",
                 "url": "/repo/dianaphp/rendering",
-                "reference": "0fed729745d5fa9f7717a55b3aad928ceeaf1385"
+                "reference": "4cea61b333171265de26422ea83206cfb1191cb2"
             },
             "require": {
-                "dianaphp/lib": "*",
+                "dianaphp/lib": "dev-main",
                 "php": ">=8.0",
-                "ramsey/uuid": "*"
+                "ramsey/uuid": "^5.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "*"
@@ -202,56 +202,6 @@
                 }
             ],
             "description": "the diana rendering package",
-            "keywords": [
-                "diana",
-                "framework",
-                "php"
-            ],
-            "transport-options": {
-                "symlink": true,
-                "relative": false
-            }
-        },
-        {
-            "name": "dianaphp/routing",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "/repo/dianaphp/routing",
-                "reference": "1810b9d8fdc8d94a20ecdad4843c7431b73efe22"
-            },
-            "require": {
-                "dianaphp/lib": "dev-main",
-                "php": ">=8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^11.2@dev"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Diana\\": "src/Diana/",
-                    "Diana\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "post-install-cmd": [
-                    "phpunit"
-                ],
-                "post-update-cmd": [
-                    "phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Antonio Ianzano",
-                    "email": "ianzanoan@gmail.com"
-                }
-            ],
-            "description": "the diana routing package",
             "keywords": [
                 "diana",
                 "framework",
@@ -2138,7 +2088,6 @@
     "stability-flags": {
         "dianaphp/framework": 20,
         "dianaphp/rendering": 20,
-        "dianaphp/routing": 20,
         "phpunit/phpunit": 20
     },
     "prefer-stable": false,

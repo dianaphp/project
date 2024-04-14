@@ -2,11 +2,12 @@
 
 namespace App;
 
+use Diana\IO\Response;
+use Diana\Rendering\Contracts\Renderer;
 use Diana\Rendering\RenderingPackage;
 use Diana\IO\Contracts\Kernel;
-use Diana\IO\Kernel as DianaKernel;
-use Diana\Routing\RoutingPackage;
-use Diana\Runtime\Application;
+use Diana\Routing\Contracts\Router;
+use Diana\Routing\Drivers\FileRouter;
 use Diana\Runtime\Container;
 use Diana\Runtime\Package;
 
@@ -14,18 +15,17 @@ class AppPackage extends Package
 {
     /** This package is being initialized */
     /** Register Drivers, Packages, Controllers here */
-    public function __construct(Container $container, Application $app)
+    public function __construct(Container $container, Kernel $kernel)
     {
         $this->loadConfig();
 
-        $container->singleton(Kernel::class, DianaKernel::class);
+        $container->singleton(Router::class, FileRouter::class);
 
-        $app->registerPackage(
-            RoutingPackage::class,
+        $kernel->registerPackage(
             RenderingPackage::class
         );
 
-        $app->registerController(AppController::class);
+        $kernel->registerController(AppController::class);
     }
 
     public function getConfigFile(): string
@@ -57,7 +57,7 @@ class AppPackage extends Package
     }
 
     /** All packages have been registered */
-    public function boot(): void
+    public function boot(Router $router, Kernel $kernel, Renderer $renderer, AppPackage $appPackage): void
     {
     }
 }

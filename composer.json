@@ -32,8 +32,7 @@
     "require": {
         "php": ">=8.0",
         "dianaphp/framework": "dev-main",
-        "dianaphp/rendering": "dev-main",
-        "dianaphp/routing": "dev-main"
+        "dianaphp/rendering": "dev-main"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.2@dev"
