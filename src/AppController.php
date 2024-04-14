@@ -6,18 +6,17 @@ use Composer\InstalledVersions;
 use Diana\Rendering\Contracts\Renderer;
 use Diana\Routing\Attributes\Command;
 use Diana\Routing\Attributes\Get;
-use Diana\Runtime\Application;
 
 class AppController
 {
     #[Get("/")]
-    public function index(Renderer $renderer, Application $app, AppPackage $appPackage)
+    public function index(Renderer $renderer, AppPackage $appPackage)
     {
         return $renderer->make("./res/app.blade.php", $appPackage->config->get());
     }
 
     #[Get("/data")]
-    public function data(Application $app, AppPackage $appPackage)
+    public function data(AppPackage $appPackage)
     {
         return [
             'name' => $appPackage->config['name'],
