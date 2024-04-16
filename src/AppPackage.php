@@ -2,12 +2,12 @@
 
 namespace App;
 
+use Diana\Database\DatabasePackage;
 use Diana\IO\Response;
 use Diana\Rendering\Contracts\Renderer;
 use Diana\Rendering\RenderingPackage;
 use Diana\IO\Contracts\Kernel;
 use Diana\Routing\Contracts\Router;
-use Diana\Routing\Drivers\FileRouter;
 use Diana\Runtime\Container;
 use Diana\Runtime\Package;
 
@@ -19,10 +19,9 @@ class AppPackage extends Package
     {
         $this->loadConfig();
 
-        $container->singleton(Router::class, FileRouter::class);
-
         $kernel->registerPackage(
-            RenderingPackage::class
+            RenderingPackage::class,
+            DatabasePackage::class
         );
 
         $kernel->registerController(AppController::class);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c585b199dbfa396bdc32053e724c0b13",
+    "content-hash": "8301bdd66627ad2a11bc2afd14e46ca6",
     "packages": [
         {
             "name": "brick/math",
@@ -62,12 +62,61 @@
             "time": "2023-01-15T23:15:59+00:00"
         },
         {
+            "name": "dianaphp/database",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "/repo/dianaphp/database",
+                "reference": "29c5e1db074dfabbb23f1eba1cf6f77ba8219a59"
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Diana\\": "src/Diana/",
+                    "Diana\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-install-cmd": [
+                    "phpunit"
+                ],
+                "post-update-cmd": [
+                    "phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Ianzano",
+                    "email": "ianzanoan@gmail.com"
+                }
+            ],
+            "description": "the diana database package",
+            "keywords": [
+                "diana",
+                "framework",
+                "php"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": false
+            }
+        },
+        {
             "name": "dianaphp/framework",
             "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "/repo/dianaphp/framework",
-                "reference": "94456b3bfd2d6c77c0010e72e92e2a75fbb7504d"
+                "reference": "04c2dd208a35ca6633696e1dbe5a3f1d6fc8407d"
             },
             "require": {
                 "dianaphp/lib": "dev-main",
@@ -167,7 +216,7 @@
             "dist": {
                 "type": "path",
                 "url": "/repo/dianaphp/rendering",
-                "reference": "4cea61b333171265de26422ea83206cfb1191cb2"
+                "reference": "febfca0c2d99875f1f797f60c501842d29207175"
             },
             "require": {
                 "dianaphp/lib": "dev-main",
@@ -999,12 +1048,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "bc650b2c0cd65b1ebc539516ab56dbf80cae175f"
+                "reference": "53eebaa2a68b737b309ca2d4deb8fe961eb71200"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bc650b2c0cd65b1ebc539516ab56dbf80cae175f",
-                "reference": "bc650b2c0cd65b1ebc539516ab56dbf80cae175f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/53eebaa2a68b737b309ca2d4deb8fe961eb71200",
+                "reference": "53eebaa2a68b737b309ca2d4deb8fe961eb71200",
                 "shasum": ""
             },
             "require": {
@@ -1092,7 +1141,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-13T06:38:43+00:00"
+            "time": "2024-04-14T07:15:14+00:00"
         },
         {
             "name": "sebastian/cli-parser",

@@ -3,6 +3,7 @@
 namespace App;
 
 use Composer\InstalledVersions;
+use Diana\Database\DatabasePackage;
 use Diana\Rendering\Contracts\Renderer;
 use Diana\Routing\Attributes\Command;
 use Diana\Routing\Attributes\CommandErrorHandler;
@@ -43,5 +44,13 @@ class AppController
     public function version($package = 'dianaphp/framework')
     {
         return InstalledVersions::getVersion($package);
+    }
+
+
+    #[Command('db')]
+    public function databaseTest(DatabasePackage $databasePackage)
+    {
+        var_dump($databasePackage->getConnection('default'));
+        die;
     }
 }

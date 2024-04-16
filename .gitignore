@@ -10,7 +10,7 @@ yarn-error.log
 /.vscode
 
 config/*
-cache/*
+tmp/*
 logs/*
 dist/*
 !dist/.htaccess
