@@ -9,7 +9,7 @@ yarn-error.log
 /.idea
 /.vscode
 
-config/*
+cfg/*
 tmp/*
 logs/*
 dist/*
