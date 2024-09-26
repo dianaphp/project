@@ -5,7 +5,6 @@ namespace App;
 use Diana\Database\DatabasePackage;
 use Diana\IO\Response;
 use Diana\Rendering\Contracts\Renderer;
-use Diana\Rendering\RenderingPackage;
 use Diana\IO\Contracts\Kernel;
 use Diana\Routing\Contracts\Router;
 use Diana\Runtime\Container;
@@ -27,6 +26,11 @@ class AppPackage extends Package
         $kernel->registerController(AppController::class);
     }
 
+    /** All packages have been registered */
+    public function boot(Router $router, Kernel $kernel, Renderer $renderer, AppPackage $appPackage): void
+    {
+    }
+
     public function getConfigFile(): string
     {
         return 'app';
@@ -43,20 +47,5 @@ class AppPackage extends Package
     public function getConfigVisible(): array
     {
         return ['name', 'version'];
-    }
-
-    public function getConfigCreate(): bool
-    {
-        return true;
-    }
-
-    public function getConfigAppend(): bool
-    {
-        return true;
-    }
-
-    /** All packages have been registered */
-    public function boot(Router $router, Kernel $kernel, Renderer $renderer, AppPackage $appPackage): void
-    {
     }
 }

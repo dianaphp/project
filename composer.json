@@ -24,6 +24,10 @@
         ],
         "diana": [
             "bin/diana"
+        ],
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "php -S localhost:8000 -t dist boot/server.php"
         ]
     },
     "authors": [

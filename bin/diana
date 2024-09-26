@@ -1,2 +1,2 @@
 #!/bin/sh
-php dist/index.php $@
+php dist/index.php "$@"
