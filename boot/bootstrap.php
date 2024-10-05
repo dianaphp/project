@@ -7,10 +7,10 @@
 * @author  Antonio Ianzano
 */
 
-use Diana\IO\Request;
 use Diana\Runtime\Application;
+use Illuminate\Container\Container;
 
-define('DIANA_START', hrtime(true));
+define('DIANA_BOOT', hrtime(true));
 
 /**
 * Class loader
@@ -28,6 +28,10 @@ $autoLoader = require_once dirname(__DIR__) . '/vendor/autoload.php';
 * This process will bootstrap the newly created project and set up
 * all by itself so we can start developing straight away.
 */
-
-(new Application(dirname(__DIR__), $autoLoader))
-    ->handleRequest(Request::capture());
+(new Application(
+    path: dirname(__DIR__),
+    output: 'php://output',
+    sapi: PHP_SAPI,
+    loader: $autoLoader,
+    container: new Container()
+))->boot();

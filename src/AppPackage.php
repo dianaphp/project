@@ -2,50 +2,30 @@
 
 namespace App;
 
-use Diana\Database\DatabasePackage;
-use Diana\IO\Response;
-use Diana\Rendering\Contracts\Renderer;
-use Diana\IO\Contracts\Kernel;
-use Diana\Routing\Contracts\Router;
-use Diana\Runtime\Container;
+use Diana\Config\Attributes\Config;
+use Diana\Runtime\Application;
+use Diana\Runtime\Kernel;
 use Diana\Runtime\Package;
+use Illuminate\Container\Container;
 
 class AppPackage extends Package
 {
     /** This package is being initialized */
     /** Register Drivers, Packages, Controllers here */
-    public function __construct(Container $container, Kernel $kernel)
-    {
-        $this->loadConfig();
-
-        $kernel->registerPackage(
-            RenderingPackage::class,
-            DatabasePackage::class
+    public function __construct(
+        Application $app,
+        Kernel $kernel,
+        #[Config('app')] protected \Diana\Config\ConfigInterface $config
+    ) {
+        $app->registerPackage(
+            RenderingPackage::class
         );
 
         $kernel->registerController(AppController::class);
     }
 
-    /** All packages have been registered */
-    public function boot(Router $router, Kernel $kernel, Renderer $renderer, AppPackage $appPackage): void
+    public function getConfig(): \Diana\Config\ConfigInterface
     {
-    }
-
-    public function getConfigFile(): string
-    {
-        return 'app';
-    }
-
-    public function getConfigDefault(): array
-    {
-        return [
-            'name' => 'Diana Application',
-            'version' => '1.0.0'
-        ];
-    }
-
-    public function getConfigVisible(): array
-    {
-        return ['name', 'version'];
+        return $this->config;
     }
 }

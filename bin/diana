@@ -1,2 +1,4 @@
-#!/bin/sh
-php dist/index.php "$@"
+#!/usr/sbin/php
+<?php
+
+require_once dirname(__DIR__) . '/boot/bootstrap.php';

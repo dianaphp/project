@@ -20,7 +20,7 @@
 
 <body>
     <div class="benchmark">
-        Elapsed time: {{ (hrtime(true) - DIANA_START) / 1_000_000_000 }} seconds
+        Elapsed time: {{ (hrtime(true) - DIANA_BOOT) / 1_000_000_000 }} seconds
     </div>
     <div id="root"></div>
 

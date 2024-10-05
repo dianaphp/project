@@ -1,8 +1,8 @@
 {
     "name": "dianaphp/project",
-    "description": "a brand new diana project",
+    "description": "a brand new bin/diana project",
     "keywords": [
-        "diana",
+        "bin/diana",
         "framework",
         "php"
     ],
@@ -37,10 +37,11 @@
         }
     ],
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.3.12",
         "dianaphp/framework": "dev-main",
         "dianaphp/rendering": "dev-main",
-        "dianaphp/database": "dev-main"
+        "dianaphp/database": "dev-main",
+        "dianaphp/eloquent-driver": "dev-main"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.2@dev"
