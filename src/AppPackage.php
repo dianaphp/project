@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Diana\Config\Attributes\Config;
 use Diana\Runtime\Application;
-use Diana\Runtime\Kernel;
+use Diana\Runtime\Attributes\Config;
 use Diana\Runtime\Package;
-use Illuminate\Container\Container;
+use Diana\Drivers\ConfigInterface;
+use Diana\Drivers\Routing\RouterInterface;
 
 class AppPackage extends Package
 {
@@ -14,17 +14,17 @@ class AppPackage extends Package
     /** Register Drivers, Packages, Controllers here */
     public function __construct(
         Application $app,
-        Kernel $kernel,
-        #[Config('app')] protected \Diana\Config\ConfigInterface $config
+        RouterInterface $router,
+        #[Config('app')] protected ConfigInterface $config
     ) {
         $app->registerPackage(
             RenderingPackage::class
         );
 
-        $kernel->registerController(AppController::class);
+        $router->registerController(AppController::class);
     }
 
-    public function getConfig(): \Diana\Config\ConfigInterface
+    public function getConfig(): ConfigInterface
     {
         return $this->config;
     }

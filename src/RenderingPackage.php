@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Diana\Config\Attributes\Config;
 use Diana\Rendering\Compiler;
 use Diana\Rendering\Components\Component;
 use Diana\Rendering\Components\DynamicComponent;
@@ -14,7 +13,9 @@ use Diana\Rendering\Engines\FileEngine;
 use Diana\Rendering\Engines\PhpEngine;
 use Diana\Rendering\Exceptions\RendererException;
 use Diana\Runtime\Application;
+use Diana\Runtime\Attributes\Config;
 use Diana\Runtime\Package;
+use Diana\Drivers\ConfigInterface;
 use Illuminate\Container\Container;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -27,8 +28,10 @@ class RenderingPackage extends Package
     public function __construct(
         Container $container,
         Application $app,
-        #[Config('rendering')] protected \Diana\Config\ConfigInterface $config
+        #[Config('rendering')] protected ConfigInterface $config
     ) {
+        $config->setDefault($this->getDefaultConfig());
+
         $container->singleton(BladeRenderer::class, function () use ($container, $app) {
             Component::setCompilationPath($app->path($this->config->get('renderCompilationPath')));
 
@@ -49,7 +52,7 @@ class RenderingPackage extends Package
                     <script type="module" src="' . $this->config->get('viteHost') . '/@vite/client"></script>
                     <script type="module" src="' . $this->config->get('viteHost') . '/' . $entry . '"></script>';
                 } else {
-                    $content = file_get_contents($app->path('./dist/.vite/manifest.json'));
+                    $content = file_get_contents($app->path('dist/.vite/manifest.json'));
                     $manifest = json_decode($content, true);
 
                     if (!isset($manifest[$entry])) {
@@ -98,13 +101,16 @@ class RenderingPackage extends Package
 
             return new TwigRenderer($loader, $environment);
         });
+    }
 
-        if (!is_a($this->config->get('renderer'), Renderer::class, true)) {
-            throw new RendererException(
-                "Invalid renderer, expected instance of interface [" . Renderer::class . "], got [{$this->config->get('renderer')}]."
-            );
-        }
-
-        $container->alias($this->config->get('renderer'), Renderer::class);
+    public function getDefaultConfig(): array
+    {
+        return [
+            'renderer' => BladeRenderer::class,
+            'renderCachePath' => 'tmp/rendering/cached',
+            'renderCompilationPath' => 'tmp/rendering/compiled',
+            'viteEnv' => 'env',
+            'viteHost' => 'http://localhost:3000',
+        ];
     }
 }

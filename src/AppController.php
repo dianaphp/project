@@ -4,13 +4,13 @@ namespace App;
 
 use Composer\InstalledVersions;
 use Diana\Database\DatabasePackage;
-use Diana\Rendering\Contracts\Renderer;
 use Diana\Rendering\Drivers\TwigRenderer;
-use Diana\Routing\Attributes\Command;
-use Diana\Routing\Attributes\CommandErrorHandler;
-use Diana\Routing\Attributes\Get;
-use Diana\Routing\Attributes\HttpErrorHandler;
+use Diana\Router\Attributes\Command;
+use Diana\Router\Attributes\CommandErrorHandler;
+use Diana\Router\Attributes\Get;
+use Diana\Router\Attributes\HttpErrorHandler;
 use Diana\Runtime\Application;
+use Diana\Drivers\RendererInterface;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -30,7 +30,7 @@ class AppController
     }
 
     #[Get("/")]
-    public function blade(Renderer $renderer, AppPackage $appPackage): string
+    public function blade(RendererInterface $renderer, AppPackage $appPackage): string
     {
         // TODO: allow to use multiple renderers, and use the the renderingpackage to hold it
         // basically the same principle as the databasepackage, where you get the corresponding
@@ -38,17 +38,13 @@ class AppController
 
         // TODO: for easier use, we can leave it just like it is right now
         // so the default renderer will be bound to the container and can automatically be accessed
-        return $renderer->render($this->app->path("./res/app.blade.php"), $appPackage->getConfig()->get());
+        return $renderer->render($this->app->path("res/app.blade.php"), $appPackage->getConfig()->get());
     }
 
-    /**
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws LoaderError
-     */
+    #[Get("/twig")]
     public function twig(TwigRenderer $twig, AppPackage $appPackage): string
     {
-        return $twig->render("./res/app.twig", $appPackage->getConfig());
+        return $twig->render("res/app.twig", $appPackage->getConfig()->get());
     }
 
     #[CommandErrorHandler()]
