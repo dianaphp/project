@@ -12,7 +12,7 @@ function App() {
         const request = new XMLHttpRequest();
         request.open("GET", "/data");
         request.onload = () => {
-            if (request.status == 200)
+            if (request.status === 200)
                 setData(JSON.parse(request.responseText))
             else
                 setStatus("An error occured.");

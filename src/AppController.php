@@ -47,13 +47,13 @@ class AppController
         return $twig->render("res/app.twig", $appPackage->getConfig()->get());
     }
 
-    #[CommandErrorHandler()]
+    #[CommandErrorHandler]
     public function commandError(int $errorCode): int
     {
         return $errorCode;
     }
 
-    #[HttpErrorHandler()]
+    #[HttpErrorHandler]
     public function httpError(int $errorCode): int
     {
         return $errorCode;
@@ -79,7 +79,7 @@ class AppController
     #[Command('db')]
     public function databaseTest(DatabasePackage $databasePackage): void
     {
-        $connection = $databasePackage->getConnection('default');
+        $connection = $databasePackage->getConnection();
         // var_dump($connection);
         $id = "1--test";
         $result = $connection->read("SELECT * FROM test WHERE `id`=$id");
