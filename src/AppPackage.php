@@ -7,11 +7,15 @@ use Diana\Runtime\Attributes\Config;
 use Diana\Runtime\Package;
 use Diana\Drivers\ConfigInterface;
 use Diana\Drivers\Routing\RouterInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class AppPackage extends Package
 {
-    /** This package is being initialized */
-    /** Register Drivers, Packages, Controllers here */
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __construct(
         Application $app,
         RouterInterface $router,

@@ -5,13 +5,11 @@ namespace App;
 use Diana\Rendering\Compiler;
 use Diana\Rendering\Components\Component;
 use Diana\Rendering\Components\DynamicComponent;
-use Diana\Rendering\Contracts\Renderer;
 use Diana\Rendering\Drivers\BladeRenderer;
 use Diana\Rendering\Drivers\TwigRenderer;
 use Diana\Rendering\Engines\CompilerEngine;
 use Diana\Rendering\Engines\FileEngine;
 use Diana\Rendering\Engines\PhpEngine;
-use Diana\Rendering\Exceptions\RendererException;
 use Diana\Runtime\Application;
 use Diana\Runtime\Attributes\Config;
 use Diana\Runtime\Package;
@@ -22,9 +20,6 @@ use Twig\Loader\FilesystemLoader;
 
 class RenderingPackage extends Package
 {
-    /**
-     * @throws RendererException
-     */
     public function __construct(
         Container $container,
         Application $app,
