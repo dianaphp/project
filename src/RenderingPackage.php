@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Diana\Drivers\ContainerInterface;
 use Diana\Rendering\Compiler;
 use Diana\Rendering\Components\Component;
 use Diana\Rendering\Components\DynamicComponent;
@@ -14,14 +15,13 @@ use Diana\Runtime\Application;
 use Diana\Runtime\Attributes\Config;
 use Diana\Runtime\Package;
 use Diana\Drivers\ConfigInterface;
-use Illuminate\Container\Container;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 class RenderingPackage extends Package
 {
     public function __construct(
-        Container $container,
+        ContainerInterface $container,
         Application $app,
         #[Config('rendering')] protected ConfigInterface $config
     ) {

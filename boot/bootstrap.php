@@ -8,7 +8,7 @@
 */
 
 use Diana\Runtime\Application;
-use Illuminate\Container\Container;
+use Diana\Runtime\ContainerProxy;
 
 define('DIANA_BOOT', hrtime(true));
 
@@ -28,10 +28,12 @@ $autoLoader = require_once dirname(__DIR__) . '/vendor/autoload.php';
 * This process will bootstrap the newly created project and set up
 * all by itself so we can start developing straight away.
 */
+$container = new ContainerProxy();
+
 (new Application(
     path: dirname(__DIR__),
     output: 'php://output',
     sapi: PHP_SAPI,
     loader: $autoLoader,
-    container: new Container()
+    container: $container
 ))->boot();
