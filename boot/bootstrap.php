@@ -36,6 +36,7 @@ $container = new IlluminateContainer();
 (new Framework(
     appPath: dirname(__DIR__),
     loader: $autoLoader,
+    configFolder: 'cfg',
     config: function ($app) {
         return new FileConfig($app, 'framework');
     }

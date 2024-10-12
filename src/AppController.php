@@ -55,15 +55,15 @@ class AppController
     }
 
     #[CommandErrorHandler]
-    public function commandError(int $errorCode): int
+    public function commandError(int $statusCode): int
     {
-        return $errorCode;
+        return $statusCode;
     }
 
     #[HttpErrorHandler]
-    public function httpError(int $errorCode): int
+    public function httpError(int $statusCode): int
     {
-        return $errorCode;
+        return $statusCode;
     }
 
     #[Get("/data")]
@@ -87,7 +87,7 @@ class AppController
     public function databaseTest(DatabasePackage $databasePackage): void
     {
         $connection = $databasePackage->getConnection();
-        // var_dump($connection);
+        // Fvar_dump($connection);
         $id = "1--test";
         $result = $connection->read("SELECT * FROM test WHERE `id`=$id");
         var_dump($result);

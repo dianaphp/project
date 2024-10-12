@@ -9,7 +9,7 @@ use Diana\Runtime\Framework;
 class AppModule
 {
     public function __construct(
-        #[Config('app')] protected ConfigInterface $config,
+        #[Config] protected ConfigInterface $config,
         Framework $app
     ) {
         $app->registerPackage(AppController::class);

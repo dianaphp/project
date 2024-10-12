@@ -23,7 +23,7 @@ class RenderingPackage
     public function __construct(
         ContainerInterface $container,
         Framework $app,
-        #[Config('rendering')] protected ConfigInterface $config
+        #[Config('cfg/rendering')] protected ConfigInterface $config
     ) {
         $config->setDefault($this->getDefaultConfig());
 
