@@ -38,6 +38,8 @@ $container = new IlluminateContainer();
     loader: $autoLoader,
     configFolder: 'cfg',
     config: function ($app) {
-        return new FileConfig($app, 'framework');
+        // TODO: rework
+        // Config::$configs = ...
+        return new FileConfig($app, 'cfg/framework');
     }
 ))->boot();

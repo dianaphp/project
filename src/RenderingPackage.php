@@ -25,7 +25,7 @@ class RenderingPackage
         Framework $app,
         #[Config('cfg/rendering')] protected ConfigInterface $config
     ) {
-        $config->setDefault($this->getDefaultConfig());
+        $config->addDefault($this->getDefaultConfig());
 
         $container->singleton(BladeRenderer::class, function () use ($container, $app) {
             Component::setCompilationPath($app->path($this->config->get('renderCompilationPath')));
