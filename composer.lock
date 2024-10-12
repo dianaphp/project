@@ -137,7 +137,7 @@
             "dist": {
                 "type": "path",
                 "url": "/opt/repo/database",
-                "reference": "fffa91eb162f5bbae3c21c3f15bee5da1ba52261"
+                "reference": "1556ad16691d72876712cd2b14dea820e9d66709"
             },
             "require": {
                 "dianaphp/lib": "dev-main",
@@ -237,13 +237,14 @@
             "dist": {
                 "type": "path",
                 "url": "/opt/repo/framework",
-                "reference": "871bf5ea57335bee3e89fb0c4f85c73a5027cccd"
+                "reference": "d77315d726b1e00d7555702b0669e1adcc2d3db9"
             },
             "require": {
                 "dianaphp/lib": "dev-main",
+                "dianaphp/sdk": "dev-main",
                 "filp/whoops": "^2.15",
                 "illuminate/container": "^12.0@dev",
-                "php": ">=8.3.12"
+                "php": ">=8.3"
             },
             "require-dev": {
                 "phpunit/phpunit": "^11.2@dev"
@@ -288,10 +289,11 @@
             "dist": {
                 "type": "path",
                 "url": "/opt/repo/lib",
-                "reference": "d12ad6e4fc70705364087466e1dab3bbdcc69a9c"
+                "reference": "c43de15b849ac1877778391106928c9bfd4c4ace"
             },
             "require": {
-                "php": ">=8.0"
+                "php": ">=8.3",
+                "psr/container": "^2.0@dev"
             },
             "require-dev": {
                 "phpunit/phpunit": "*"
@@ -336,7 +338,7 @@
             "dist": {
                 "type": "path",
                 "url": "/opt/repo/rendering",
-                "reference": "db2379e8f5b265a53172116dd1af331bb4f6cf2c"
+                "reference": "7772164b60e324b23d5ca0df075c779c86750ba1"
             },
             "require": {
                 "dianaphp/lib": "dev-main",
@@ -371,6 +373,55 @@
                 }
             ],
             "description": "the diana rendering package",
+            "keywords": [
+                "diana",
+                "framework",
+                "php"
+            ],
+            "transport-options": {
+                "relative": false
+            }
+        },
+        {
+            "name": "dianaphp/sdk",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "/opt/repo/sdk",
+                "reference": "f179243a93913c20c30ff08b22873afcbb581770"
+            },
+            "require": {
+                "php": ">=8.3",
+                "psr/container": "^2.0@dev"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Diana\\": "src/Diana/",
+                    "Diana\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-install-cmd": [
+                    "phpunit"
+                ],
+                "post-update-cmd": [
+                    "phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Ianzano",
+                    "email": "ianzanoan@gmail.com"
+                }
+            ],
+            "description": "the diana sdk",
             "keywords": [
                 "diana",
                 "framework",
@@ -651,12 +702,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "ac4959331c62ce1da8fef39cb0cb6a51eeaf06b9"
+                "reference": "c17ef1375748474c16a4514b54fe7729911e0c2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/ac4959331c62ce1da8fef39cb0cb6a51eeaf06b9",
-                "reference": "ac4959331c62ce1da8fef39cb0cb6a51eeaf06b9",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/c17ef1375748474c16a4514b54fe7729911e0c2c",
+                "reference": "c17ef1375748474c16a4514b54fe7729911e0c2c",
                 "shasum": ""
             },
             "require": {
@@ -695,7 +746,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-09-24T22:41:58+00:00"
+            "time": "2024-10-09T01:32:50+00:00"
         },
         {
             "name": "illuminate/contracts",
@@ -752,12 +803,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "431d570ebfbde2c4c26818d9d0a25e9ab4040211"
+                "reference": "284af005d4f3aa2ea8b31aaf5b0696487d774eb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/431d570ebfbde2c4c26818d9d0a25e9ab4040211",
-                "reference": "431d570ebfbde2c4c26818d9d0a25e9ab4040211",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/284af005d4f3aa2ea8b31aaf5b0696487d774eb4",
+                "reference": "284af005d4f3aa2ea8b31aaf5b0696487d774eb4",
                 "shasum": ""
             },
             "require": {
@@ -814,7 +865,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-10-02T05:00:36+00:00"
+            "time": "2024-10-09T01:32:50+00:00"
         },
         {
             "name": "illuminate/macroable",
@@ -869,12 +920,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "a8467a8781faa0287dc96fe88c843ec285207fbb"
+                "reference": "2291c298500e9c6df2d125719c00dda62f64b5bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/a8467a8781faa0287dc96fe88c843ec285207fbb",
-                "reference": "a8467a8781faa0287dc96fe88c843ec285207fbb",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/2291c298500e9c6df2d125719c00dda62f64b5bf",
+                "reference": "2291c298500e9c6df2d125719c00dda62f64b5bf",
                 "shasum": ""
             },
             "require": {
@@ -938,7 +989,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-10-02T05:00:36+00:00"
+            "time": "2024-10-09T10:53:07+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -1955,16 +2006,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.3.0",
+            "version": "v5.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "3abf7425cd284141dc5d8d14a9ee444de3345d1a"
+                "reference": "8eea230464783aa9671db8eea6f8c6ac5285794b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/3abf7425cd284141dc5d8d14a9ee444de3345d1a",
-                "reference": "3abf7425cd284141dc5d8d14a9ee444de3345d1a",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/8eea230464783aa9671db8eea6f8c6ac5285794b",
+                "reference": "8eea230464783aa9671db8eea6f8c6ac5285794b",
                 "shasum": ""
             },
             "require": {
@@ -2007,9 +2058,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.3.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.3.1"
             },
-            "time": "2024-09-29T13:56:26+00:00"
+            "time": "2024-10-08T18:51:32+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -2136,31 +2187,31 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "ceaeeeace79f0bdff017c073d6ef5b1d460c0fae"
+                "reference": "f7f08030e8811582cc459871d28d6f5a1a4d35ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/ceaeeeace79f0bdff017c073d6ef5b1d460c0fae",
-                "reference": "ceaeeeace79f0bdff017c073d6ef5b1d460c0fae",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/f7f08030e8811582cc459871d28d6f5a1a4d35ca",
+                "reference": "f7f08030e8811582cc459871d28d6f5a1a4d35ca",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-xmlwriter": "*",
-                "nikic/php-parser": "^5.1.0",
+                "nikic/php-parser": "^5.3.1",
                 "php": ">=8.2",
-                "phpunit/php-file-iterator": "^5.0.1",
+                "phpunit/php-file-iterator": "^5.1.0",
                 "phpunit/php-text-template": "^4.0.1",
                 "sebastian/code-unit-reverse-lookup": "^4.0.1",
                 "sebastian/complexity": "^4.0.1",
                 "sebastian/environment": "^7.2.0",
                 "sebastian/lines-of-code": "^3.0.1",
-                "sebastian/version": "^5.0.1",
+                "sebastian/version": "^5.0.2",
                 "theseer/tokenizer": "^1.2.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^11.3"
+                "phpunit/phpunit": "^11.4.1"
             },
             "suggest": {
                 "ext-pcov": "PHP extension that provides line coverage",
@@ -2199,7 +2250,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/main"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/11.0.7"
             },
             "funding": [
                 {
@@ -2207,7 +2258,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-28T06:31:36+00:00"
+            "time": "2024-10-09T06:21:38+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2464,12 +2515,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3ac50a105015bd1f479fa7bd067df54ad590fac9"
+                "reference": "e15b7997b331fae370a192d91702043150957367"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3ac50a105015bd1f479fa7bd067df54ad590fac9",
-                "reference": "3ac50a105015bd1f479fa7bd067df54ad590fac9",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e15b7997b331fae370a192d91702043150957367",
+                "reference": "e15b7997b331fae370a192d91702043150957367",
                 "shasum": ""
             },
             "require": {
@@ -2483,7 +2534,7 @@
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.2",
-                "phpunit/php-code-coverage": "^11.0.6",
+                "phpunit/php-code-coverage": "^11.0.7",
                 "phpunit/php-file-iterator": "^5.1.0",
                 "phpunit/php-invoker": "^5.0.1",
                 "phpunit/php-text-template": "^4.0.1",
@@ -2497,7 +2548,7 @@
                 "sebastian/global-state": "^7.0.2",
                 "sebastian/object-enumerator": "^6.0.1",
                 "sebastian/type": "^5.1.0",
-                "sebastian/version": "^5.0.1"
+                "sebastian/version": "^5.0.2"
             },
             "suggest": {
                 "ext-soap": "To be able to generate mocks based on WSDL files"
@@ -2556,7 +2607,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-10-07T14:57:44+00:00"
+            "time": "2024-10-09T11:27:01+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -3447,12 +3498,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/version.git",
-                "reference": "4e4fe6166028e711f97cb80262dffa4227c7090b"
+                "reference": "c687e3387b99f5b03b6caa64c74b63e2936ff874"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/version/zipball/4e4fe6166028e711f97cb80262dffa4227c7090b",
-                "reference": "4e4fe6166028e711f97cb80262dffa4227c7090b",
+                "url": "https://api.github.com/repos/sebastianbergmann/version/zipball/c687e3387b99f5b03b6caa64c74b63e2936ff874",
+                "reference": "c687e3387b99f5b03b6caa64c74b63e2936ff874",
                 "shasum": ""
             },
             "require": {
@@ -3486,7 +3537,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/version/issues",
                 "security": "https://github.com/sebastianbergmann/version/security/policy",
-                "source": "https://github.com/sebastianbergmann/version/tree/main"
+                "source": "https://github.com/sebastianbergmann/version/tree/5.0.2"
             },
             "funding": [
                 {
@@ -3494,7 +3545,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-07T13:16:40+00:00"
+            "time": "2024-10-09T05:16:32+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -3550,10 +3601,10 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "dianaphp/framework": 20,
-        "dianaphp/rendering": 20,
         "dianaphp/database": 20,
         "dianaphp/eloquent-driver": 20,
+        "dianaphp/framework": 20,
+        "dianaphp/rendering": 20,
         "phpunit/phpunit": 20
     },
     "prefer-stable": false,
@@ -3561,6 +3612,6 @@
     "platform": {
         "php": ">=8.3.12"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

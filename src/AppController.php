@@ -4,13 +4,15 @@ namespace App;
 
 use Composer\InstalledVersions;
 use Diana\Database\DatabasePackage;
+use Diana\Drivers\RendererInterface;
+use Diana\Event\Attributes\EventListener;
 use Diana\Rendering\Drivers\TwigRenderer;
 use Diana\Router\Attributes\Command;
 use Diana\Router\Attributes\CommandErrorHandler;
 use Diana\Router\Attributes\Get;
 use Diana\Router\Attributes\HttpErrorHandler;
-use Diana\Runtime\Application;
-use Diana\Drivers\RendererInterface;
+use Diana\Runtime\Attributes\Config;
+use Diana\Runtime\Framework;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -18,7 +20,7 @@ use Twig\Error\SyntaxError;
 class AppController
 {
     public function __construct(
-        protected Application $app
+        protected Framework $app
     ) {
     }
 
@@ -29,8 +31,13 @@ class AppController
         return User::all();
     }
 
+    #[EventListener(Framework::class, 'boot')]
+    public function onAppBoot(): void
+    {
+    }
+
     #[Get("/")]
-    public function blade(RendererInterface $renderer, AppPackage $appPackage): string
+    public function blade(RendererInterface $renderer, AppModule $appModule): string
     {
         // TODO: allow to use multiple renderers, and use the the renderingpackage to hold it
         // basically the same principle as the databasepackage, where you get the corresponding
@@ -38,11 +45,11 @@ class AppController
 
         // TODO: for easier use, we can leave it just like it is right now
         // so the default renderer will be bound to the container and can automatically be accessed
-        return $renderer->render($this->app->path("res/app.blade.php"), $appPackage->getConfig()->get());
+        return $renderer->render($this->app->path("res/app.blade.php"), $appModule->getConfig());
     }
 
     #[Get("/twig")]
-    public function twig(TwigRenderer $twig, AppPackage $appPackage): string
+    public function twig(TwigRenderer $twig, AppModule $appPackage): string
     {
         return $twig->render("res/app.twig", $appPackage->getConfig()->get());
     }
@@ -60,10 +67,10 @@ class AppController
     }
 
     #[Get("/data")]
-    public function data(AppPackage $appPackage): array
+    public function data(AppModule $appService): array
     {
         return [
-            'name' => $appPackage->getConfig()->get('name'),
+            'name' => $appService->getConfig('name'),
             'dianaVersion' => InstalledVersions::getVersion('dianaphp/framework'),
             'phpVersion' => phpversion()
         ];
