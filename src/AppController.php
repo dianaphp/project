@@ -4,14 +4,16 @@ namespace App;
 
 use Composer\InstalledVersions;
 use Diana\Database\DatabasePackage;
-use Diana\Drivers\RendererInterface;
+use Diana\Contracts\EventListenerContract;
+use Diana\Contracts\RendererContract;
 use Diana\Event\Attributes\EventListener;
+use Diana\Event\EventInterface;
+use Diana\Events\BootEvent;
 use Diana\Rendering\Drivers\TwigRenderer;
 use Diana\Router\Attributes\Command;
 use Diana\Router\Attributes\CommandErrorHandler;
 use Diana\Router\Attributes\Get;
 use Diana\Router\Attributes\HttpErrorHandler;
-use Diana\Runtime\Attributes\Config;
 use Diana\Runtime\Framework;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -31,13 +33,13 @@ class AppController
         return User::all();
     }
 
-    #[EventListener(Framework::class, 'boot')]
-    public function onAppBoot(): void
+    #[EventListener(BootEvent::class)]
+    public function onAppBoot(EventInterface $event, EventListenerContract $eventListener): void
     {
     }
 
     #[Get("/")]
-    public function blade(RendererInterface $renderer, AppModule $appModule): string
+    public function blade(RendererContract $renderer, AppModule $appModule): string
     {
         // TODO: allow to use multiple renderers, and use the the renderingpackage to hold it
         // basically the same principle as the databasepackage, where you get the corresponding

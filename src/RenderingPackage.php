@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Diana\Drivers\ConfigInterface;
-use Diana\Drivers\ContainerInterface;
+use Diana\Contracts\ConfigContract;
+use Diana\Contracts\ContainerContract;
 use Diana\Rendering\Compiler;
 use Diana\Rendering\Components\Component;
 use Diana\Rendering\Components\DynamicComponent;
@@ -14,16 +14,15 @@ use Diana\Rendering\Engines\FileEngine;
 use Diana\Rendering\Engines\PhpEngine;
 use Diana\Runtime\Framework;
 use Diana\Runtime\Attributes\Config;
-use Diana\Runtime\Package;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 class RenderingPackage
 {
     public function __construct(
-        ContainerInterface $container,
+        ContainerContract $container,
         Framework $app,
-        #[Config('cfg/rendering')] protected ConfigInterface $config
+        #[Config('cfg/rendering')] protected ConfigContract $config
     ) {
         $config->addDefault($this->getDefaultConfig());
 

@@ -2,14 +2,14 @@
 
 namespace App;
 
-use Diana\Drivers\ConfigInterface;
+use Diana\Contracts\ConfigContract;
 use Diana\Runtime\Attributes\Config;
 use Diana\Runtime\Framework;
 
 class AppModule
 {
     public function __construct(
-        #[Config] protected ConfigInterface $config,
+        #[Config] protected ConfigContract $config,
         Framework $app
     ) {
         $app->registerPackage(AppController::class);
