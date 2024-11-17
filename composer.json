@@ -22,6 +22,9 @@
         "post-update-cmd": [
             "phpunit"
         ],
+        "test": [
+            "phpunit"
+        ],
         "diana": [
             "bin/diana"
         ],

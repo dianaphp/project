@@ -3,12 +3,11 @@
 namespace App;
 
 use Composer\InstalledVersions;
-use Diana\Database\DatabasePackage;
 use Diana\Contracts\EventListenerContract;
 use Diana\Contracts\RendererContract;
-use Diana\Event\Attributes\EventListener;
-use Diana\Event\EventInterface;
+use Diana\Database\DatabasePackage;
 use Diana\Events\BootEvent;
+use Diana\IO\Event\Attributes\EventListener;
 use Diana\Rendering\Drivers\TwigRenderer;
 use Diana\Router\Attributes\Command;
 use Diana\Router\Attributes\CommandErrorHandler;
@@ -34,7 +33,7 @@ class AppController
     }
 
     #[EventListener(BootEvent::class)]
-    public function onAppBoot(EventInterface $event, EventListenerContract $eventListener): void
+    public function onAppBoot(BootEvent $event, EventListenerContract $eventListener): void
     {
     }
 
