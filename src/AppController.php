@@ -3,7 +3,6 @@
 namespace App;
 
 use Composer\InstalledVersions;
-use Diana\Contracts\EventListenerContract;
 use Diana\Contracts\RendererContract;
 use Diana\Database\DatabasePackage;
 use Diana\Events\BootEvent;
@@ -33,7 +32,7 @@ class AppController
     }
 
     #[EventListener(BootEvent::class)]
-    public function onAppBoot(BootEvent $event, EventListenerContract $eventListener): void
+    public function onAppBoot(BootEvent $event): void
     {
     }
 
