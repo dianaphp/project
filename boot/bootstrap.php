@@ -8,6 +8,7 @@
 */
 
 use Diana\Config\FileConfig;
+use Diana\IO\Request;
 use Diana\Runtime\Framework;
 use Diana\Runtime\IlluminateContainer;
 
@@ -35,11 +36,11 @@ $container = new IlluminateContainer();
 
 (new Framework(
     appPath: dirname(__DIR__),
-    loader: $autoLoader,
     configFolder: 'cfg',
+    loader: $autoLoader,
     config: function ($app) {
         // TODO: rework
         // Config::$configs = ...
         return new FileConfig($app, 'cfg/framework');
     }
-))->boot();
+))->handleRequest(Request::capture());

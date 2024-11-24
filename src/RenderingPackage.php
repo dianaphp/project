@@ -4,6 +4,8 @@ namespace App;
 
 use Diana\Contracts\ConfigContract;
 use Diana\Contracts\ContainerContract;
+use Diana\Contracts\EventManagerContract;
+use Diana\Events\ShutdownEvent;
 use Diana\Rendering\Compiler;
 use Diana\Rendering\Components\Component;
 use Diana\Rendering\Components\DynamicComponent;
@@ -20,23 +22,29 @@ use Twig\Loader\FilesystemLoader;
 class RenderingPackage
 {
     public function __construct(
-        ContainerContract $container,
-        Framework $app,
-        #[Config('cfg/rendering')] protected ConfigContract $config
+        protected ContainerContract $container,
+        protected Framework $app,
+        #[Config('cfg/rendering')] protected ConfigContract $config,
+        protected EventManagerContract $eventManager
     ) {
         $config->addDefault($this->getDefaultConfig());
 
-        $container->singleton(BladeRenderer::class, function () use ($container, $app) {
-            Component::setCompilationPath($app->path($this->config->get('renderCompilationPath')));
+        $container->singleton(BladeRenderer::class, fn (): BladeRenderer => $this->bladeRenderer());
+        $container->singleton(TwigRenderer::class, fn (): TwigRenderer => $this->twigRenderer());
+    }
 
-            $compiler = new Compiler($app->path($this->config->get('renderCachePath')), false);
-            $compiler->component('dynamic-component', DynamicComponent::class);
-            $compiler->directive("vite", function ($entry) use ($app) {
-                $entry = trim($entry, "\"'");
+    public function bladeRenderer(): BladeRenderer
+    {
+        Component::setCompilationPath($this->app->path($this->config->get('renderCompilationPath')));
 
-                if ($this->config->get('viteEnv') == 'dev') {
-                    return
-                        '<script type="module">
+        $compiler = new Compiler($this->app->path($this->config->get('renderCachePath')), false);
+        $compiler->component('dynamic-component', DynamicComponent::class);
+        $compiler->directive("vite", function ($entry) {
+            $entry = trim($entry, "\"'");
+
+            if ($this->config->get('viteEnv') == 'dev') {
+                return
+                    '<script type="module">
                         import RefreshRuntime from "' . $this->config->get('viteHost') . '/@react-refresh"
                         RefreshRuntime.injectIntoGlobalHook(window)
                         window.$RefreshReg$ = () => {}
@@ -45,56 +53,56 @@ class RenderingPackage
                     </script>
                     <script type="module" src="' . $this->config->get('viteHost') . '/@vite/client"></script>
                     <script type="module" src="' . $this->config->get('viteHost') . '/' . $entry . '"></script>';
-                } else {
-                    $content = file_get_contents($app->path('dist/.vite/manifest.json'));
-                    $manifest = json_decode($content, true);
+            } else {
+                $content = file_get_contents($this->app->path('dist/.vite/manifest.json'));
+                $manifest = json_decode($content, true);
 
-                    if (!isset($manifest[$entry])) {
-                        return "";
-                    }
-
-                    $script = "<script type=\"module\" src=\"" . $manifest[$entry]['file'] . "\"></script>";
-
-                    foreach ($manifest[$entry]['imports'] ?? [] as $imports) {
-                        $script .= "\n<link rel=\"modulepreload\" href=\"/" . $manifest[$imports]['file'] . "\">";
-                    }
-                    foreach ($manifest[$entry]['css'] ?? [] as $file) {
-                        $script .= "\n<link rel=\"stylesheet\" href=\"/$file\">";
-                    }
-
-                    return $script;
+                if (!isset($manifest[$entry])) {
+                    return "";
                 }
-            });
 
-            $bladeEngine = new CompilerEngine($compiler);
+                $script = "<script type=\"module\" src=\"" . $manifest[$entry]['file'] . "\"></script>";
 
-            $renderer = new BladeRenderer($compiler);
+                foreach ($manifest[$entry]['imports'] ?? [] as $imports) {
+                    $script .= "\n<link rel=\"modulepreload\" href=\"/" . $manifest[$imports]['file'] . "\">";
+                }
+                foreach ($manifest[$entry]['css'] ?? [] as $file) {
+                    $script .= "\n<link rel=\"stylesheet\" href=\"/$file\">";
+                }
 
-            $renderer->registerEngine('blade.php', $bladeEngine);
-            $renderer->registerEngine('php', PhpEngine::class);
-            $renderer->registerEngine(['html', 'css'], FileEngine::class);
-
-            $app->terminating(static function () use ($bladeEngine) {
-                Component::flushCache();
-                $bladeEngine->forgetCompiledOrNotExpired();
-            });
-
-            // TODO: remove this from container, this has to be bound to the bladerenderer instance only
-            // if needed from the outside, it should be accessed via the bladerenderer->getCompiler()
-            $container->instance(Compiler::class, $compiler);
-
-            return $renderer;
+                return $script;
+            }
         });
 
-        $container->singleton(TwigRenderer::class, function () use ($app) {
-            $loader = new FilesystemLoader($app->path('res'));
-            $environment = new Environment($loader, [
-                'cache' => $app->path($this->config->get('renderCachePath')),
-                'debug' => true
-            ]);
+        $bladeEngine = new CompilerEngine($compiler);
 
-            return new TwigRenderer($loader, $environment);
+        $this->eventManager->addEventListener(ShutdownEvent::class, function () use ($bladeEngine) {
+            Component::flushCache();
+            $bladeEngine->forgetCompiledOrNotExpired();
         });
+
+        $renderer = new BladeRenderer($compiler);
+
+        $renderer->registerEngine('blade.php', $bladeEngine);
+        $renderer->registerEngine('php', PhpEngine::class);
+        $renderer->registerEngine(['html', 'css'], FileEngine::class);
+
+        // TODO: remove this from container, this has to be bound to the bladerenderer instance only
+        // if needed from the outside, it should be accessed via the bladerenderer->getCompiler()
+        $this->container->instance(Compiler::class, $compiler);
+
+        return $renderer;
+    }
+
+    public function twigRenderer(): TwigRenderer
+    {
+        $loader = new FilesystemLoader($this->app->path('res'));
+        $environment = new Environment($loader, [
+            'cache' => $this->app->path($this->config->get('renderCachePath')),
+            'debug' => true
+        ]);
+
+        return new TwigRenderer($loader, $environment);
     }
 
     public function getDefaultConfig(): array
