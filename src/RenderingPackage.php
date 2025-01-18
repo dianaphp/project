@@ -2,10 +2,11 @@
 
 namespace App;
 
-use Diana\Contracts\ConfigContract;
-use Diana\Contracts\ContainerContract;
-use Diana\Contracts\EventManagerContract;
+use Diana\Config\Config;
+use Diana\Contracts\Core\Container;
+use Diana\Contracts\Event\Dispatcher;
 use Diana\Events\ShutdownEvent;
+use Diana\Framework\Core\Application;
 use Diana\Rendering\Compiler;
 use Diana\Rendering\Components\Component;
 use Diana\Rendering\Components\DynamicComponent;
@@ -14,23 +15,21 @@ use Diana\Rendering\Drivers\TwigRenderer;
 use Diana\Rendering\Engines\CompilerEngine;
 use Diana\Rendering\Engines\FileEngine;
 use Diana\Rendering\Engines\PhpEngine;
-use Diana\Runtime\Framework;
-use Diana\Runtime\Attributes\Config;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 class RenderingPackage
 {
     public function __construct(
-        protected ContainerContract $container,
-        protected Framework $app,
-        #[Config('cfg/rendering')] protected ConfigContract $config,
-        protected EventManagerContract $eventManager
+        protected Container $container,
+        protected Application $app,
+        #[Config('rendering')] protected Config $config,
+        protected Dispatcher $dispatcher
     ) {
         $config->addDefault($this->getDefaultConfig());
 
-        $container->singleton(BladeRenderer::class, fn (): BladeRenderer => $this->bladeRenderer());
-        $container->singleton(TwigRenderer::class, fn (): TwigRenderer => $this->twigRenderer());
+        $container->singleton(BladeRenderer::class, fn(): BladeRenderer => $this->bladeRenderer());
+        $container->singleton(TwigRenderer::class, fn(): TwigRenderer => $this->twigRenderer());
     }
 
     public function bladeRenderer(): BladeRenderer
@@ -76,7 +75,7 @@ class RenderingPackage
 
         $bladeEngine = new CompilerEngine($compiler);
 
-        $this->eventManager->addEventListener(ShutdownEvent::class, function () use ($bladeEngine) {
+        $this->dispatcher->addEventListener(ShutdownEvent::class, function () use ($bladeEngine) {
             Component::flushCache();
             $bladeEngine->forgetCompiledOrNotExpired();
         });

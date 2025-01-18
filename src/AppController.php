@@ -6,13 +6,13 @@ use Composer\InstalledVersions;
 use Diana\Contracts\RendererContract;
 use Diana\Database\DatabasePackage;
 use Diana\Events\BootEvent;
+use Diana\Framework\Core\Application;
 use Diana\IO\Event\Attributes\EventListener;
 use Diana\Rendering\Drivers\TwigRenderer;
 use Diana\Router\Attributes\Command;
 use Diana\Router\Attributes\CommandErrorHandler;
 use Diana\Router\Attributes\Get;
 use Diana\Router\Attributes\HttpErrorHandler;
-use Diana\Runtime\Framework;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -20,7 +20,7 @@ use Twig\Error\SyntaxError;
 class AppController
 {
     public function __construct(
-        protected Framework $app
+        protected Application $app
     ) {
     }
 
@@ -45,13 +45,13 @@ class AppController
 
         // TODO: for easier use, we can leave it just like it is right now
         // so the default renderer will be bound to the container and can automatically be accessed
-        return $renderer->render($this->app->path("res/app.blade.php"), $appModule->getConfig());
+        return $renderer->render($this->app->path("res/app.blade.php"), $appModule->config()->all());
     }
 
     #[Get("/twig")]
     public function twig(TwigRenderer $twig, AppModule $appPackage): string
     {
-        return $twig->render("res/app.twig", $appPackage->getConfig()->get());
+        return $twig->render("res/app.twig", $appPackage->config()->all());
     }
 
     #[CommandErrorHandler]
@@ -70,7 +70,7 @@ class AppController
     public function data(AppModule $appService): array
     {
         return [
-            'name' => $appService->getConfig('name'),
+            'name' => $appService->config()->get('name'),
             'dianaVersion' => InstalledVersions::getVersion('dianaphp/framework'),
             'phpVersion' => phpversion()
         ];
