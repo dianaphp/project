@@ -43,8 +43,7 @@
         "php": ">=8.3.12",
         "dianaphp/framework": "dev-main",
         "dianaphp/rendering": "dev-main",
-        "dianaphp/database": "dev-main",
-        "dianaphp/eloquent-driver": "dev-main"
+        "dianaphp/database": "dev-main"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.2@dev"
