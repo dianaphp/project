@@ -51,7 +51,7 @@ class AppController
     #[Get("/twig")]
     public function twig(TwigRenderer $twig, AppModule $appPackage): string
     {
-        return $twig->render("res/app.twig", $appPackage->config()->all());
+        return $twig->render("app.twig", $appPackage->config()->all());
     }
 
     #[CommandErrorHandler]

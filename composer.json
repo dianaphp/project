@@ -44,7 +44,8 @@
         "dianaphp/framework": "dev-main",
         "dianaphp/router": "dev-main",
         "dianaphp/rendering": "dev-main",
-        "dianaphp/database": "dev-main"
+        "dianaphp/database": "dev-main",
+        "illuminate/database": "^12.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.2@dev"
