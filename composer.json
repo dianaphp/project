@@ -16,15 +16,7 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "phpunit"
-        ],
-        "post-update-cmd": [
-            "phpunit"
-        ],
-        "test": [
-            "phpunit"
-        ],
+        "test": "phpunit",
         "diana": [
             "bin/diana"
         ],
@@ -48,6 +40,6 @@
         "illuminate/database": "^12.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^11.2@dev"
+        "phpunit/phpunit": "^11.5"
     }
 }
