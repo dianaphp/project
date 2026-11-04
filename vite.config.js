@@ -29,8 +29,11 @@ export default defineConfig({
     },
 
     server: {
+        host: process.env.DIANA_DEV_HOST || "localhost",
         strictPort: true,
         port: 3000,
-        origin: "http://localhost:3000"
+        origin: "http://localhost:3000",
+        cors: { origin: "http://localhost:8000" },
+        watch: { usePolling: process.env.DIANA_WATCH_POLLING === "1" }
     }
 })

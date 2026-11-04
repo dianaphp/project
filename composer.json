@@ -2,7 +2,7 @@
     "name": "dianaphp/project",
     "description": "a brand new bin/diana project",
     "keywords": [
-        "bin/diana",
+        "diana",
         "framework",
         "php"
     ],
@@ -30,7 +30,7 @@
         ],
         "serve": [
             "Composer\\Config::disableProcessTimeout",
-            "php -S localhost:8000 -t dist boot/server.php"
+            "php boot/serve.php"
         ]
     },
     "authors": [
@@ -42,6 +42,7 @@
     "require": {
         "php": ">=8.3.12",
         "dianaphp/framework": "dev-main",
+        "dianaphp/router": "dev-main",
         "dianaphp/rendering": "dev-main",
         "dianaphp/database": "dev-main"
     },

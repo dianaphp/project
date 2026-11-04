@@ -5,6 +5,7 @@ namespace App;
 use Diana\Config\Config;
 use Diana\Contracts\Core\Container;
 use Diana\Contracts\Event\Dispatcher;
+use Diana\Contracts\RendererContract;
 use Diana\Events\ShutdownEvent;
 use Diana\Framework\Core\Application;
 use Diana\Rendering\Compiler;
@@ -27,6 +28,10 @@ class RenderingPackage
         protected Dispatcher $dispatcher
     ) {
         $config->addDefault($this->getDefaultConfig());
+
+        if (!$container->has(RendererContract::class)) {
+            $container->singleton(RendererContract::class, BladeRenderer::class);
+        }
 
         $container->singleton(BladeRenderer::class, fn(): BladeRenderer => $this->bladeRenderer());
         $container->singleton(TwigRenderer::class, fn(): TwigRenderer => $this->twigRenderer());
