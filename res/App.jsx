@@ -23,13 +23,13 @@ function App() {
     return (
         <>
             <div>
-                <a href="https://github.com/dianaphp" target="_blank">
+                <a href="https://github.com/dianaphp" target="_blank" rel="noreferrer">
                     <img src={dianaLogo} className="logo diana" alt="Diana logo" />
                 </a>
-                <a href="https://vitejs.dev" target="_blank">
+                <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
                     <img src={viteLogo} className="logo vite" alt="Vite logo" />
                 </a>
-                <a href="https://react.dev" target="_blank">
+                <a href="https://react.dev" target="_blank" rel="noreferrer">
                     <img src={reactLogo} className="logo react" alt="React logo" />
                 </a>
             </div>

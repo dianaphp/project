@@ -25,3 +25,14 @@ jobs:
         run: composer install --prefer-dist --no-progress --no-interaction --no-scripts
       - name: Run tests
         run: composer test -- --fail-on-warning --fail-on-deprecation
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
