@@ -10,6 +10,7 @@ use Diana\Contracts\Core\Container;
 use Diana\Contracts\Event\Dispatcher;
 use Diana\Contracts\RendererContract;
 use Diana\Framework\Core\Application;
+use Diana\Framework\Core\Environment;
 use Diana\IO\Event\NullDispatcher;
 use Diana\Rendering\Compiler;
 use Diana\Rendering\RenderingPackage;
@@ -23,10 +24,13 @@ use ReflectionProperty;
 class AppModuleRenderingTest extends TestCase
 {
     private string $directory;
+    private string|false $previousEnvironment;
     private array $configState;
 
     protected function setUp(): void
     {
+        $this->previousEnvironment = getenv('APP_ENV');
+        putenv('APP_ENV');
         $this->directory = sys_get_temp_dir() . '/diana-app-rendering-' . bin2hex(random_bytes(6));
         mkdir($this->directory . '/cfg', 0777, true);
         mkdir($this->directory . '/res');
@@ -50,6 +54,7 @@ class AppModuleRenderingTest extends TestCase
 
     protected function tearDown(): void
     {
+        putenv($this->previousEnvironment === false ? 'APP_ENV' : 'APP_ENV=' . $this->previousEnvironment);
         foreach ($this->configState as $class => $value) {
             if ($value !== null) {
                 (new ReflectionProperty($class, $class === Config::class ? 'configs' : 'directory'))->setValue(null, $value);
@@ -86,7 +91,7 @@ class AppModuleRenderingTest extends TestCase
 
     public function testAppModuleRegistersExtensionsOnTheRendererUsedByTheApplication(): void
     {
-        $container = $this->boot('dev');
+        $container = $this->boot(Environment::DEV);
         $blade = $container->get(BladeRenderer::class);
         self::assertSame($blade, $container->get(RendererContract::class));
         self::assertFalse($container->has(Compiler::class));
@@ -102,13 +107,26 @@ class AppModuleRenderingTest extends TestCase
         self::assertSame('Hello Diana', $container->get(TwigRenderer::class)->render('page.twig', ['name' => 'Diana']));
     }
 
+    public function testProcessEnvironmentControlsBothViteAndBladeDespiteProductionConfig(): void
+    {
+        putenv('APP_ENV=' . Environment::DEV);
+        $container = $this->boot(Environment::PROD);
+        $environment = $container->get(Environment::class);
+        self::assertTrue($environment->is(Environment::DEV));
+        self::assertSame($environment, $container->make(Environment::class));
+        $html = $container->get(BladeRenderer::class)->render($this->directory . '/res/page.blade.php');
+        self::assertStringContainsString('Development environment', $html);
+        self::assertStringContainsString('http://localhost:3456/@vite/client', $html);
+        self::assertSame(Environment::PROD, (require $this->directory . '/cfg/framework.conf.php')['env']);
+    }
+
     public function testAppModuleRetainsProductionViteManifestSupport(): void
     {
         file_put_contents($this->directory . '/dist/.vite/manifest.json', json_encode([
             'main.jsx' => ['file' => 'assets/main.js', 'imports' => ['shared'], 'css' => ['assets/main.css']],
             'shared' => ['file' => 'assets/shared.js'],
         ]));
-        $container = $this->boot('production');
+        $container = $this->boot(Environment::PROD);
         $html = $container->get(BladeRenderer::class)->render($this->directory . '/res/page.blade.php');
         self::assertStringContainsString('src="assets/main.js"', $html);
         self::assertStringContainsString('href="/assets/shared.js"', $html);

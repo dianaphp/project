@@ -4,6 +4,7 @@ namespace App;
 
 use Diana\Config\Config;
 use Diana\Framework\Core\Application;
+use Diana\Framework\Core\Environment;
 use Diana\Rendering\Components\DynamicComponent;
 use Diana\Rendering\Drivers\BladeRenderer;
 
@@ -13,7 +14,7 @@ class AppModule
         #[Config] protected Config $config,
         protected Application $app,
         BladeRenderer $renderer,
-        #[Config('framework')] protected Config $frameworkConfig
+        protected Environment $environment
     ) {
         $this->config->addDefault([
             'viteHost' => 'http://localhost:3000',
@@ -24,7 +25,7 @@ class AppModule
         $compiler->directive("vite", function ($entry) {
             $entry = trim($entry, "\"'");
 
-            if ($this->frameworkConfig->get('env') == 'dev') {
+            if ($this->environment->is(Environment::DEV)) {
                 return
                     '<script type="module">
                         import RefreshRuntime from "' . $this->config->get('viteHost') . '/@react-refresh"

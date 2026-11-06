@@ -15,6 +15,25 @@ if (!defined('DIANA_BOOT')) {
     define('DIANA_BOOT', hrtime(true));
 }
 
+// Protect even Composer loading failures, before Whoops is available.
+ini_set('display_errors', '0');
+ini_set('display_startup_errors', '0');
+set_error_handler(static function (int $severity, string $message, string $file, int $line): bool {
+    if (!(error_reporting() & $severity)) {
+        return false;
+    }
+    throw new \ErrorException($message, 0, $severity, $file, $line);
+});
+set_exception_handler(static function (\Throwable $exception): void {
+    error_log((string) $exception);
+    if (PHP_SAPI !== 'cli' && !headers_sent()) {
+        http_response_code(500);
+        header('Content-Type: text/plain; charset=UTF-8');
+    }
+    echo "Internal Server Error\n";
+    exit(1);
+});
+
 /**
  * Class loader
  * -----------------------------------------------
@@ -38,5 +57,5 @@ FileConfig::setDirectory($appPath . DIRECTORY_SEPARATOR . 'cfg');
 (new Application(
     appPath: $appPath,
     loader: $autoLoader,
-    config: new FileConfig('framework')
+    config: static fn(): FileConfig => new FileConfig('framework')
 ))->handleRequest(Request::capture());
