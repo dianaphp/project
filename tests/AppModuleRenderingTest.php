@@ -19,6 +19,8 @@ use Diana\Rendering\Components\DynamicComponent;
 use Diana\Rendering\Drivers\BladeRenderer;
 use Diana\Rendering\Drivers\TwigRenderer;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use RuntimeException;
 use ReflectionProperty;
 
 class AppModuleRenderingTest extends TestCase
@@ -74,7 +76,7 @@ class AppModuleRenderingTest extends TestCase
         rmdir($this->directory);
     }
 
-    private function boot(string $env): Container
+    private function boot(string $env, array $appConfig = []): Container
     {
         $frameworkPath = $this->directory . '/cfg/framework.conf.php';
         $framework = require $frameworkPath;
@@ -84,6 +86,7 @@ class AppModuleRenderingTest extends TestCase
             // A stale app setting must not override the framework environment.
             'env' => $env === 'dev' ? 'production' : 'dev',
             'viteHost' => 'http://localhost:3456',
+            ...$appConfig,
         ], true) . ';');
         $app = new RenderingTestApplication($this->directory, new ClassLoader(), new FileConfig('framework'));
         return $app->container();
@@ -128,11 +131,77 @@ class AppModuleRenderingTest extends TestCase
         ]));
         $container = $this->boot(Environment::PROD);
         $html = $container->get(BladeRenderer::class)->render($this->directory . '/res/page.blade.php');
-        self::assertStringContainsString('src="assets/main.js"', $html);
+        self::assertStringContainsString('src="/assets/main.js"', $html);
         self::assertStringContainsString('href="/assets/shared.js"', $html);
         self::assertStringContainsString('href="/assets/main.css"', $html);
         self::assertStringNotContainsString('@vite/client', $html);
         self::assertStringNotContainsString('Development environment', $html);
+    }
+
+    public static function assetBases(): iterable
+    {
+        yield 'root' => ['/', '/assets/'];
+        yield 'subdirectory' => ['/shop', '/shop/assets/'];
+        yield 'subdirectory with slash' => ['/shop/', '/shop/assets/'];
+        yield 'CDN' => ['https://cdn.example.test/shop/', 'https://cdn.example.test/shop/assets/'];
+    }
+
+    #[DataProvider('assetBases')]
+    public function testProductionAssetsShareBaseAndTraverseImports(string $base, string $prefix): void
+    {
+        file_put_contents($this->directory . '/dist/.vite/manifest.json', json_encode([
+            'main.jsx' => ['file' => 'assets/main.js', 'imports' => ['shared', 'other'], 'css' => ['assets/main.css']],
+            'shared' => ['file' => 'assets/shared.js', 'imports' => ['nested'], 'css' => ['assets/shared.css']],
+            'other' => ['file' => 'assets/other.js', 'imports' => ['nested'], 'css' => ['assets/shared.css']],
+            'nested' => ['file' => 'assets/nested.js', 'imports' => ['shared'], 'css' => ['assets/nested.css']],
+        ]));
+        $container = $this->boot(Environment::PROD, ['viteBase' => $base]);
+        $html = $container->get(BladeRenderer::class)->render($this->directory . '/res/page.blade.php');
+        self::assertStringContainsString('src="' . $prefix . 'main.js"', $html);
+        foreach (['shared.js', 'other.js', 'nested.js', 'shared.css', 'nested.css', 'main.css'] as $file) {
+            self::assertSame(1, substr_count($html, 'href="' . $prefix . $file . '"'));
+        }
+        self::assertLessThan(strpos($html, $prefix . 'main.css'), strpos($html, $prefix . 'shared.css'));
+        self::assertStringNotContainsString('@vite/client', $html);
+    }
+
+    public static function invalidManifests(): iterable
+    {
+        yield 'missing file' => [null, 'Cannot read Vite manifest'];
+        yield 'invalid JSON' => ['{broken', 'Invalid Vite manifest'];
+        yield 'null' => ['null', 'Invalid Vite manifest'];
+        yield 'scalar' => ['42', 'Invalid Vite manifest'];
+        yield 'list' => ['[]', 'Invalid Vite manifest'];
+        yield 'missing entry' => ['{"other":{"file":"assets/other.js"}}', 'Missing or invalid Vite manifest entry: main.jsx'];
+        yield 'missing output' => ['{"main.jsx":{}}', 'Missing or invalid Vite manifest entry: main.jsx'];
+        yield 'invalid output' => ['{"main.jsx":{"file":[]}}', 'Missing or invalid Vite manifest entry: main.jsx'];
+        yield 'missing import' => ['{"main.jsx":{"file":"assets/main.js","imports":["missing"]}}', 'Missing or invalid Vite manifest entry: missing'];
+        yield 'invalid imports' => ['{"main.jsx":{"file":"assets/main.js","imports":"shared"}}', 'Invalid Vite manifest imports'];
+        yield 'invalid import key' => ['{"main.jsx":{"file":"assets/main.js","imports":[null]}}', 'Invalid Vite manifest imports'];
+        yield 'null imports' => ['{"main.jsx":{"file":"assets/main.js","imports":null}}', 'Invalid Vite manifest imports'];
+        yield 'null CSS' => ['{"main.jsx":{"file":"assets/main.js","css":null}}', 'Invalid Vite manifest css'];
+        yield 'invalid CSS' => ['{"main.jsx":{"file":"assets/main.js","css":[{}]}}', 'Invalid Vite manifest css'];
+    }
+
+    #[DataProvider('invalidManifests')]
+    public function testInvalidProductionManifestFailsWithActionableException(?string $manifest, string $message): void
+    {
+        if ($manifest !== null) {
+            file_put_contents($this->directory . '/dist/.vite/manifest.json', $manifest);
+        }
+        $container = $this->boot(Environment::PROD);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage($message);
+        $container->get(BladeRenderer::class)->render($this->directory . '/res/page.blade.php');
+    }
+
+    public function testRelativeProductionBaseIsRejected(): void
+    {
+        file_put_contents($this->directory . '/dist/.vite/manifest.json', '{"main.jsx":{"file":"assets/main.js"}}');
+        $container = $this->boot(Environment::PROD, ['viteBase' => 'assets/']);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('viteBase');
+        $container->get(BladeRenderer::class)->render($this->directory . '/res/page.blade.php');
     }
 }
 
